@@ -1,0 +1,50 @@
+[ {
+  "type" : "enum",
+  "name" : "RecipientType",
+  "namespace" : "com.corp.concepts.notification.models",
+  "symbols" : [ "Bireysel", "Kurumsal" ]
+}, {
+  "type" : "enum",
+  "name" : "ConsentType",
+  "namespace" : "com.corp.concepts.notification.models",
+  "symbols" : [ "Mesaj", "Arama", "Eposta" ]
+}, {
+  "type" : "enum",
+  "name" : "Source",
+  "namespace" : "com.corp.concepts.notification.models",
+  "symbols" : [ "Fiziksel", "Elektronik" ]
+}, {
+  "type" : "enum",
+  "name" : "Status",
+  "namespace" : "com.corp.concepts.notification.models",
+  "symbols" : [ "Onay", "Red" ]
+}, {
+  "type" : "record",
+  "name" : "Consent",
+  "namespace" : "com.corp.concepts.notification.models",
+  "fields" : [ {
+    "name" : "iysCode",
+    "type" : "int"
+  }, {
+    "name" : "brandCode",
+    "type" : "string"
+  }, {
+    "name" : "consentDate",
+    "type" : "long"
+  }, {
+    "name" : "type",
+    "type" : "ConsentType"
+  }, {
+    "name" : "recipientType",
+    "type" : "RecipientType"
+  }, {
+    "name" : "recipient",
+    "type" : "string"
+  }, {
+    "name" : "source",
+    "type" : "Source"
+  }, {
+    "name" : "status",
+    "type" : "Status"
+  } ]
+} ]

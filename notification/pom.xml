@@ -145,4 +145,7 @@
 			<url>https://packages.confluent.io/maven/</url>
 		</repository>
 	</repositories>
+	<modules>
+		<module>notification-models</module>
+	</modules>
 </project>
