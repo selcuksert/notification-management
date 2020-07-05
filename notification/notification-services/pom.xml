@@ -12,6 +12,12 @@
 	<packaging>pom</packaging>
 	<name>notification-services</name>
 	<description>Notification services - parent POM</description>
+	
+	<modules>
+		<module>mdm</module>
+		<module>processor</module>
+		<module>source</module>
+	</modules>
 
 	<dependencies>
 		<dependency>

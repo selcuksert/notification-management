@@ -1,12 +1,16 @@
 package com.corp.concepts.notification.services.source.controller;
 
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -15,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.corp.concepts.notification.services.source.entity.Consent;
 import com.corp.concepts.notification.services.source.entity.Consent.Status;
 import com.corp.concepts.notification.services.source.repository.ConsentRepository;
-import com.corp.concepts.notification.services.source.service.EventGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -27,12 +30,10 @@ import lombok.extern.slf4j.Slf4j;
 public class ConsentController {
 
 	private ConsentRepository consentRepository;
-	private EventGenerator eventGenerator;
 	private ObjectMapper objectMapper;
 
-	public ConsentController(ConsentRepository consentRepository, EventGenerator eventGenerator) {
+	public ConsentController(ConsentRepository consentRepository) {
 		this.consentRepository = consentRepository;
-		this.eventGenerator = eventGenerator;
 		this.objectMapper = new ObjectMapper();
 	}
 
@@ -41,28 +42,40 @@ public class ConsentController {
 	public String getConsentList() {
 		try {
 			List<Consent> consentList = (List<Consent>) consentRepository.findAll();
+			consentList.sort(Collections.reverseOrder());
 			return objectMapper.writeValueAsString(consentList);
 		} catch (Exception e) {
 			log.error("Error during getting consent data:", e);
 			return e.getMessage();
 		}
 	}
-	
-	@PostMapping("/reset")
+
+	@DeleteMapping
 	@ResponseBody
-	public String resetConsentData(@RequestParam(value = "count") int count) {
+	public String deleteAllConsentData() {
 		try {
-			List<Consent> consentData = eventGenerator.generateConsentData(count);
 			consentRepository.deleteAll();
-			consentRepository.saveAll(consentData);
-			return objectMapper.writeValueAsString(consentData);
+			return "Deleted all data";
 		} catch (Exception e) {
-			log.error("Error during resetting consent data:", e);
+			log.error("Error during updating consent data:", e);
 			return e.getMessage();
 		}
 	}
 
 	@PostMapping
+	@ResponseBody
+	public String addConsent(@RequestBody Consent consent) {
+		try {
+			consent.setTimestamp(Calendar.getInstance().getTimeInMillis());
+			consentRepository.save(consent);
+			return objectMapper.writeValueAsString(consent);
+		} catch (Exception e) {
+			log.error("Error during updating consent data:", e);
+			return e.getMessage();
+		}
+	}
+
+	@PatchMapping
 	@ResponseBody
 	public String updateConsent(@RequestParam(value = "recipient") String recipient,
 			@RequestParam(value = "approved") boolean approved) {
@@ -81,6 +94,7 @@ public class ConsentController {
 			}
 
 			List<Consent> consentList = (List<Consent>) consentRepository.findAll();
+			consentList.sort(Collections.reverseOrder());
 			return objectMapper.writeValueAsString(consentList);
 		} catch (Exception e) {
 			log.error("Error during updating consent data:", e);

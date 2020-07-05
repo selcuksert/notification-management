@@ -6,16 +6,12 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 @Table(name = "consent")
-public class Consent {
+public class Consent implements Comparable<Consent> {
 
 	@Id
 	private String recipient;
@@ -31,18 +27,7 @@ public class Consent {
 	private Source source;
 	@Enumerated(EnumType.STRING)
 	private Status status;
-
-	public Consent(int iysCode, int brandCode, long consentDate, String recipient, ConsentType type,
-			RecipientType recipientType, Source source, Status status) {
-		this.iysCode = iysCode;
-		this.brandCode = brandCode;
-		this.consentDate = consentDate;
-		this.recipient = recipient;
-		this.type = type;
-		this.recipientType = recipientType;
-		this.source = source;
-		this.status = status;
-	}
+	private Long timestamp;
 
 	public enum ConsentType {
 		Mesaj, Arama, Eposta;
@@ -59,4 +44,15 @@ public class Consent {
 	public enum Status {
 		Onay, Red;
 	}
+
+	@Override
+	public int compareTo(Consent consent) {
+		if (consent.getTimestamp() < this.getTimestamp()) {
+			return 1;
+		} else if (consent.getTimestamp() > this.getTimestamp()) {
+			return -1;
+		}
+		return 0;
+	}
+
 }

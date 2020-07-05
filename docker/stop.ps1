@@ -1,0 +1,1 @@
+docker-compose -f $PSScriptRoot\..\..\..\..\docker-images\kafka\docker-compose.yml down

@@ -24,7 +24,6 @@
 	</licenses>
 	<modules>
 		<module>notification-models</module>
-		<module>services/source</module>
 		<module>notification-services</module>
 	</modules>
 	<properties>
@@ -34,6 +33,7 @@
 		<dependency.avro.version>1.10.0</dependency.avro.version>
 		<dependency.javafaker.version>1.0.2</dependency.javafaker.version>
 		<dependency.kafka-avro.version>5.5.0</dependency.kafka-avro.version>
+		<dependency.reactor-spring.version>1.0.1.RELEASE</dependency.reactor-spring.version>
 		<dependency.plugin.maven-clean.version>3.1.0</dependency.plugin.maven-clean.version>
 		<dependency.plugin.maven-site.version>3.9.0</dependency.plugin.maven-site.version>
 		<dependency.plugin.maven-reports.version>3.1.0</dependency.plugin.maven-reports.version>

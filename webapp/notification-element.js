@@ -10,6 +10,8 @@ import '@polymer/paper-styles/color';
 import '@polymer/paper-styles/typography';
 import '@polymer/app-layout/app-toolbar/app-toolbar';
 import '@polymer/paper-toggle-button/paper-toggle-button';
+import '@polymer/paper-spinner/paper-spinner';
+import { gridStyles } from './styles/app-grid';
 
 /**
  * An example element.
@@ -20,83 +22,12 @@ import '@polymer/paper-toggle-button/paper-toggle-button';
 export class NotificationElement extends LitElement {
   static get styles() {
     return [
-      css`
-      :host {
-        /**
-         * The width for the expandible item is:
-         * ((100% - subPixelAdjustment) / columns * itemColumns - gutter
-         *
-         * - subPixelAdjustment: 0.1px (Required for IE 11)
-         * - gutter: var(--app-grid-gutter)
-         * - columns: var(--app-grid-columns)
-         * - itemColumn: var(--app-grid-expandible-item-columns)
-         */
-        --app-grid-expandible-item: {
-          -webkit-flex-basis: calc((100% - 0.1px) / var(--app-grid-columns, 1) * var(--app-grid-expandible-item-columns, 1) - var(--app-grid-gutter, 0px)) !important;
-          flex-basis: calc((100% - 0.1px) / var(--app-grid-columns, 1) * var(--app-grid-expandible-item-columns, 1) - var(--app-grid-gutter, 0px)) !important;
-          max-width: calc((100% - 0.1px) / var(--app-grid-columns, 1) * var(--app-grid-expandible-item-columns, 1) - var(--app-grid-gutter, 0px)) !important;
-        };
-      }
-
-      .app-grid {
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-
-        -ms-flex-direction: row;
-        -webkit-flex-direction: row;
-        flex-direction: row;
-
-        -ms-flex-wrap: wrap;
-        -webkit-flex-wrap: wrap;
-        flex-wrap: wrap;
-
-        padding-top: var(--app-grid-gutter, 0px);
-        padding-left: var(--app-grid-gutter, 0px);
-        box-sizing: border-box;
-      }
-
-      .app-grid > * {
-        /* Required for IE 10 */
-        -ms-flex: 1 1 100%;
-        -webkit-flex: 1;
-        flex: 1;
-
-        /* The width for an item is: (100% - subPixelAdjustment - gutter * columns) / columns */
-        -webkit-flex-basis: calc((100% - 0.1px - (var(--app-grid-gutter, 0px) * var(--app-grid-columns, 1))) / var(--app-grid-columns, 1));
-        flex-basis: calc((100% - 0.1px - (var(--app-grid-gutter, 0px) * var(--app-grid-columns, 1))) / var(--app-grid-columns, 1));
-
-        max-width: calc((100% - 0.1px - (var(--app-grid-gutter, 0px) * var(--app-grid-columns, 1))) / var(--app-grid-columns, 1));
-        margin-bottom: var(--app-grid-gutter, 0px);
-        margin-right: var(--app-grid-gutter, 0px);
-        height: var(--app-grid-item-height);
-        box-sizing: border-box;
-      }
-
-      .app-grid[has-aspect-ratio] > * {
-        position: relative;
-      }
-
-      .app-grid[has-aspect-ratio] > *::before {
-        display: block;
-        content: "";
-        padding-top: var(--app-grid-item-height, 100%);
-      }
-
-      .app-grid[has-aspect-ratio] > * > * {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-      }
-      `,
+      gridStyles,
       css`
       :host {
         display: block;
-        --app-grid-columns: 4;
-        --app-grid-gutter: 5px;
-        --app-grid-expandible-item-columns: 4;
+        --app-grid-columns: 3;
+        --app-grid-expandible-item-columns: 3;
       }
 
       app-toolbar {
@@ -108,8 +39,33 @@ export class NotificationElement extends LitElement {
         box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
         color: white;
         z-index: 1;
-        font-weight: 350;
+        font-weight: 300;
         font-size: 18px;
+      }
+
+      .loadingIndicator {
+        text-align: center;
+        height: 40px;
+      }
+
+      paper-spinner {
+        width: 40px;
+        height: 40px;
+      }
+
+      .recipient {
+        font-size: 16px;
+        font-weight: bold;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;      
+      }
+
+      #consent {
+        padding-top: 64px;
+        padding-bottom: 16px;
+        max-width: 1200px;
+        margin: auto;
       }
 
       .consentItem {
@@ -122,35 +78,10 @@ export class NotificationElement extends LitElement {
         @apply --layout-horizontal;
       }
 
-      .avatar {
-        height: 40px;
-        width: 40px;
-        border-radius: 20px;
-        box-sizing: border-box;
-        background-color: #DDD;
-      }
-
       .pad {
         padding: 0 16px;
         @apply --layout-flex;
         @apply --layout-vertical;
-      }
-
-      .primary {
-        font-size: 16px;
-        font-weight: bold;
-      }
-
-      .secondary {
-        font-size: 14px;
-        margin: 3px 0;
-      }
-
-      #consent {
-        padding-top: 64px;
-        padding-bottom: 16px;
-        max-width: 1200px;
-        margin: auto;
       }
     `]
   }
@@ -159,12 +90,20 @@ export class NotificationElement extends LitElement {
     return {
       consentData: {
         type: Array
+      },
+      consentDataUpdated: {
+        type: Boolean
+      },
+      fetching: {
+        type: Boolean
       }
     };
   }
 
   constructor() {
     super();
+    this.consentData = [];
+    this.fetching = false;
   }
 
   render() {
@@ -172,7 +111,8 @@ export class NotificationElement extends LitElement {
       <app-toolbar>
         <div main-title>Notification Consent Settings</div>
         <paper-icon-button @click=${this.fetchAllConsentData} icon="refresh"></paper-icon-button>
-        <paper-icon-button @click=${this.resetConsentData} icon="restore-page"></paper-icon-button>
+        <paper-icon-button @click=${this.clearConsentData} icon="delete"></paper-icon-button>
+        <paper-icon-button @click=${this.generateConsentData} icon="add"></paper-icon-button>
       </app-toolbar>
 
       <div id="consent">
@@ -182,16 +122,22 @@ export class NotificationElement extends LitElement {
           <div class="consentItem">
             <div class="pad">
               <div class="app-grid">
-                <div class="primary">${consent.recipient}</div>
-                <div>${new Date(consent.consentDate).toLocaleString("tr-TR")}</div>
-                <div>${consent.type}</div>
+                <div class="recipient">${consent.recipient}</div>
+                <div>${consent.source}</div>
                 <div><paper-toggle-button ?checked=${consent.status === "Onay"} @change=${this.toggleChanged}></paper-toggle-button></div>
+                <div>${consent.type}</div>
+                <div>${consent.recipientType}</div>
+                <div>${new Date(consent.consentDate).toLocaleString("tr-TR")}</div>
               </div>
             </div>
           </div>
         </div>
       `)
       }
+      </div>
+
+      <div class="loadingIndicator">
+        <paper-spinner ?active=${this.fetching}></paper-spinner>
       </div>
     `;
   }
@@ -205,8 +151,12 @@ export class NotificationElement extends LitElement {
     fetch('http://localhost:8080/consent/all')
       .then(res => res.json())
       .then(response => {
-        this.consentData = response;
-      });
+        if (response) {
+          this.consentData = response;
+        }
+      })
+      .catch(e => console.log("Error: ", e))
+      .finally(() => this.fetching = false);
   }
 
   changeConsent(r, a) {
@@ -215,29 +165,42 @@ export class NotificationElement extends LitElement {
     formData.append('approved', a);
 
     fetch('http://localhost:8080/consent', {
-      method: 'POST',
+      method: 'PATCH',
       body: formData
     })
-    .then(res => res.json())
-    .then(response => {
-      this.consentData = response;
-    });
+      .then(res => res.json())
+      .then(response => {
+        this.consentData = response;
+      })
+      .catch(e => console.log("Error: ", e));
   }
 
-  resetConsentData() {
+  clearConsentData() {
+    this.consentDataUpdated = false;
+    this.consentData = [];
+
+    fetch('http://localhost:8080/consent', {
+      method: 'DELETE'
+    })
+      .then(response => this.consentDataUpdated = response.ok)
+      .catch(e => console.log("Error: ", e));
+  }
+
+
+  generateConsentData() {
     let count = 10;
     let formData = new FormData();
     formData.append('count', count);
+    this.consentDataUpdated = false;
+    this.consentData = [];
 
-    fetch('http://localhost:8080/consent/reset', {
+    fetch('http://localhost:9000/mdm/send', {
       method: 'POST',
       body: formData
     })
-    .then(res => res.json())
-    .then(response => {
-      this.consentData = response;
-    });
-}
+      .then(response => this.consentDataUpdated = response.ok)
+      .catch(e => console.log("Error: ", e));
+  }
 
   toggleChanged(e) {
     let recipient = e.path[2].children[0].innerText
@@ -247,6 +210,19 @@ export class NotificationElement extends LitElement {
 
     this.changeConsent(recipient, approved);
   }
+
+  updated(changedProperties) {
+    changedProperties.forEach((oldValue, propName) => {
+      if (propName === "consentDataUpdated" && oldValue === false) {
+        this.fetching = true;
+        setTimeout(() => {
+          this.fetchAllConsentData();
+          this.fetching = false;
+        }, 1000);
+      }
+    });
+  }
+
 }
 
 window.customElements.define('notification-element', NotificationElement);

@@ -1,4 +1,4 @@
-package com.corp.concepts.notification.services.source.service;
+package com.corp.concepts.notification.services.mdm.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,15 +6,15 @@ import java.util.concurrent.TimeUnit;
 
 import org.springframework.stereotype.Service;
 
-import com.corp.concepts.notification.services.source.entity.Consent;
-import com.corp.concepts.notification.services.source.entity.Consent.ConsentType;
-import com.corp.concepts.notification.services.source.entity.Consent.RecipientType;
-import com.corp.concepts.notification.services.source.entity.Consent.Source;
-import com.corp.concepts.notification.services.source.entity.Consent.Status;
+import com.corp.concepts.notification.models.Consent;
+import com.corp.concepts.notification.models.ConsentType;
+import com.corp.concepts.notification.models.RecipientType;
+import com.corp.concepts.notification.models.Source;
+import com.corp.concepts.notification.models.Status;
 import com.github.javafaker.Faker;
 
 @Service
-public class EventGenerator {
+public class MdmDataGenerator {
 	private final Faker faker = Faker.instance();
 
 	public List<Consent> generateConsentData(int count) {
@@ -35,7 +35,7 @@ public class EventGenerator {
 
 			int iysCode = faker.number().numberBetween(1, 4);
 
-			long consentDate = faker.date().past(2, TimeUnit.DAYS).getTime();
+			long consentDate = faker.date().past(365, TimeUnit.DAYS).getTime();
 
 			String recipient;
 
@@ -54,7 +54,7 @@ public class EventGenerator {
 				break;
 			}
 
-			Consent consent = new Consent(iysCode, brandCode, consentDate, recipient, type, recipientType, source,
+			Consent consent = new Consent(iysCode, brandCode, consentDate, type, recipientType, recipient, source,
 					status);
 
 			consentData.add(consent);
