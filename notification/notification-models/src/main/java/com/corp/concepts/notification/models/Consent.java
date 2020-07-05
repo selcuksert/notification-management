@@ -14,8 +14,8 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class Consent extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 219607971398241348L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"Consent\",\"namespace\":\"com.corp.concepts.notification.models\",\"fields\":[{\"name\":\"iysCode\",\"type\":\"int\"},{\"name\":\"brandCode\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"consentDate\",\"type\":\"long\"},{\"name\":\"type\",\"type\":{\"type\":\"enum\",\"name\":\"ConsentType\",\"symbols\":[\"Mesaj\",\"Arama\",\"Eposta\"]}},{\"name\":\"recipientType\",\"type\":{\"type\":\"enum\",\"name\":\"RecipientType\",\"symbols\":[\"Bireysel\",\"Kurumsal\"]}},{\"name\":\"recipient\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"source\",\"type\":{\"type\":\"enum\",\"name\":\"Source\",\"symbols\":[\"Fiziksel\",\"Elektronik\"]}},{\"name\":\"status\",\"type\":{\"type\":\"enum\",\"name\":\"Status\",\"symbols\":[\"Onay\",\"Red\"]}}]}");
+  private static final long serialVersionUID = 3017608180035341780L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"Consent\",\"namespace\":\"com.corp.concepts.notification.models\",\"fields\":[{\"name\":\"iysCode\",\"type\":\"int\"},{\"name\":\"brandCode\",\"type\":\"int\"},{\"name\":\"consentDate\",\"type\":\"long\"},{\"name\":\"type\",\"type\":{\"type\":\"enum\",\"name\":\"ConsentType\",\"symbols\":[\"Mesaj\",\"Arama\",\"Eposta\"]}},{\"name\":\"recipientType\",\"type\":{\"type\":\"enum\",\"name\":\"RecipientType\",\"symbols\":[\"Bireysel\",\"Kurumsal\"]}},{\"name\":\"recipient\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"source\",\"type\":{\"type\":\"enum\",\"name\":\"Source\",\"symbols\":[\"Fiziksel\",\"Elektronik\"]}},{\"name\":\"status\",\"type\":{\"type\":\"enum\",\"name\":\"Status\",\"symbols\":[\"Onay\",\"Red\"]}}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
@@ -72,7 +72,7 @@ public class Consent extends org.apache.avro.specific.SpecificRecordBase impleme
   }
 
    private int iysCode;
-   private java.lang.String brandCode;
+   private int brandCode;
    private long consentDate;
    private com.corp.concepts.notification.models.ConsentType type;
    private com.corp.concepts.notification.models.RecipientType recipientType;
@@ -98,7 +98,7 @@ public class Consent extends org.apache.avro.specific.SpecificRecordBase impleme
    * @param source The new value for source
    * @param status The new value for status
    */
-  public Consent(java.lang.Integer iysCode, java.lang.String brandCode, java.lang.Long consentDate, com.corp.concepts.notification.models.ConsentType type, com.corp.concepts.notification.models.RecipientType recipientType, java.lang.String recipient, com.corp.concepts.notification.models.Source source, com.corp.concepts.notification.models.Status status) {
+  public Consent(java.lang.Integer iysCode, java.lang.Integer brandCode, java.lang.Long consentDate, com.corp.concepts.notification.models.ConsentType type, com.corp.concepts.notification.models.RecipientType recipientType, java.lang.String recipient, com.corp.concepts.notification.models.Source source, com.corp.concepts.notification.models.Status status) {
     this.iysCode = iysCode;
     this.brandCode = brandCode;
     this.consentDate = consentDate;
@@ -131,7 +131,7 @@ public class Consent extends org.apache.avro.specific.SpecificRecordBase impleme
   public void put(int field$, java.lang.Object value$) {
     switch (field$) {
     case 0: iysCode = (java.lang.Integer)value$; break;
-    case 1: brandCode = value$ != null ? value$.toString() : null; break;
+    case 1: brandCode = (java.lang.Integer)value$; break;
     case 2: consentDate = (java.lang.Long)value$; break;
     case 3: type = (com.corp.concepts.notification.models.ConsentType)value$; break;
     case 4: recipientType = (com.corp.concepts.notification.models.RecipientType)value$; break;
@@ -163,7 +163,7 @@ public class Consent extends org.apache.avro.specific.SpecificRecordBase impleme
    * Gets the value of the 'brandCode' field.
    * @return The value of the 'brandCode' field.
    */
-  public java.lang.String getBrandCode() {
+  public int getBrandCode() {
     return brandCode;
   }
 
@@ -172,7 +172,7 @@ public class Consent extends org.apache.avro.specific.SpecificRecordBase impleme
    * Sets the value of the 'brandCode' field.
    * @param value the value to set.
    */
-  public void setBrandCode(java.lang.String value) {
+  public void setBrandCode(int value) {
     this.brandCode = value;
   }
 
@@ -320,7 +320,7 @@ public class Consent extends org.apache.avro.specific.SpecificRecordBase impleme
     implements org.apache.avro.data.RecordBuilder<Consent> {
 
     private int iysCode;
-    private java.lang.String brandCode;
+    private int brandCode;
     private long consentDate;
     private com.corp.concepts.notification.models.ConsentType type;
     private com.corp.concepts.notification.models.RecipientType recipientType;
@@ -456,7 +456,7 @@ public class Consent extends org.apache.avro.specific.SpecificRecordBase impleme
       * Gets the value of the 'brandCode' field.
       * @return The value.
       */
-    public java.lang.String getBrandCode() {
+    public int getBrandCode() {
       return brandCode;
     }
 
@@ -466,7 +466,7 @@ public class Consent extends org.apache.avro.specific.SpecificRecordBase impleme
       * @param value The value of 'brandCode'.
       * @return This builder.
       */
-    public com.corp.concepts.notification.models.Consent.Builder setBrandCode(java.lang.String value) {
+    public com.corp.concepts.notification.models.Consent.Builder setBrandCode(int value) {
       validate(fields()[1], value);
       this.brandCode = value;
       fieldSetFlags()[1] = true;
@@ -487,7 +487,6 @@ public class Consent extends org.apache.avro.specific.SpecificRecordBase impleme
       * @return This builder.
       */
     public com.corp.concepts.notification.models.Consent.Builder clearBrandCode() {
-      brandCode = null;
       fieldSetFlags()[1] = false;
       return this;
     }
@@ -737,7 +736,7 @@ public class Consent extends org.apache.avro.specific.SpecificRecordBase impleme
       try {
         Consent record = new Consent();
         record.iysCode = fieldSetFlags()[0] ? this.iysCode : (java.lang.Integer) defaultValue(fields()[0]);
-        record.brandCode = fieldSetFlags()[1] ? this.brandCode : (java.lang.String) defaultValue(fields()[1]);
+        record.brandCode = fieldSetFlags()[1] ? this.brandCode : (java.lang.Integer) defaultValue(fields()[1]);
         record.consentDate = fieldSetFlags()[2] ? this.consentDate : (java.lang.Long) defaultValue(fields()[2]);
         record.type = fieldSetFlags()[3] ? this.type : (com.corp.concepts.notification.models.ConsentType) defaultValue(fields()[3]);
         record.recipientType = fieldSetFlags()[4] ? this.recipientType : (com.corp.concepts.notification.models.RecipientType) defaultValue(fields()[4]);
@@ -778,7 +777,7 @@ public class Consent extends org.apache.avro.specific.SpecificRecordBase impleme
   {
     out.writeInt(this.iysCode);
 
-    out.writeString(this.brandCode);
+    out.writeInt(this.brandCode);
 
     out.writeLong(this.consentDate);
 
@@ -801,7 +800,7 @@ public class Consent extends org.apache.avro.specific.SpecificRecordBase impleme
     if (fieldOrder == null) {
       this.iysCode = in.readInt();
 
-      this.brandCode = in.readString();
+      this.brandCode = in.readInt();
 
       this.consentDate = in.readLong();
 
@@ -823,7 +822,7 @@ public class Consent extends org.apache.avro.specific.SpecificRecordBase impleme
           break;
 
         case 1:
-          this.brandCode = in.readString();
+          this.brandCode = in.readInt();
           break;
 
         case 2:

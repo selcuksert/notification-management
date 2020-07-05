@@ -22,6 +22,11 @@
 			<distribution>manual</distribution>
 		</license>
 	</licenses>
+	<modules>
+		<module>notification-models</module>
+		<module>services/source</module>
+		<module>notification-services</module>
+	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>13</maven.compiler.source>
@@ -145,7 +150,4 @@
 			<url>https://packages.confluent.io/maven/</url>
 		</repository>
 	</repositories>
-	<modules>
-		<module>notification-models</module>
-	</modules>
 </project>

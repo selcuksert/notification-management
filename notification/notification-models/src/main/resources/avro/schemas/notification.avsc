@@ -27,7 +27,7 @@
     "type" : "int"
   }, {
     "name" : "brandCode",
-    "type" : "string"
+    "type" : "int"
   }, {
     "name" : "consentDate",
     "type" : "long"
