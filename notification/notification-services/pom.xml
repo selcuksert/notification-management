@@ -17,6 +17,7 @@
 		<module>mdm</module>
 		<module>processor</module>
 		<module>source</module>
+		<module>messenger</module>
 	</modules>
 
 	<dependencies>

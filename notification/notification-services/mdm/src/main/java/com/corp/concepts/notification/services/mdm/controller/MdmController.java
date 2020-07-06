@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.corp.concepts.notification.models.Consent;
 import com.corp.concepts.notification.services.mdm.service.MdmDataGenerator;
-import com.corp.concepts.notification.services.mdm.source.MdmMessageGenerator;
+import com.corp.concepts.notification.services.mdm.service.MdmMessageGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 

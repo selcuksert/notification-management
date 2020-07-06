@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.corp.concepts.notification.services.source.entity.Consent;
 import com.corp.concepts.notification.services.source.entity.Consent.Status;
 import com.corp.concepts.notification.services.source.repository.ConsentRepository;
+import com.corp.concepts.notification.services.source.service.ConsentMessageGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -31,9 +32,11 @@ public class ConsentController {
 
 	private ConsentRepository consentRepository;
 	private ObjectMapper objectMapper;
+	private ConsentMessageGenerator consentMessageGenerator;
 
-	public ConsentController(ConsentRepository consentRepository) {
+	public ConsentController(ConsentRepository consentRepository, ConsentMessageGenerator consentMessageGenerator) {
 		this.consentRepository = consentRepository;
+		this.consentMessageGenerator = consentMessageGenerator;
 		this.objectMapper = new ObjectMapper();
 	}
 
@@ -91,6 +94,7 @@ public class ConsentController {
 				}
 				consent.setConsentDate(Calendar.getInstance().getTimeInMillis());
 				consentRepository.save(consent);
+				consentMessageGenerator.sendConsentMessage(consent);
 			}
 
 			List<Consent> consentList = (List<Consent>) consentRepository.findAll();

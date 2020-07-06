@@ -24,7 +24,7 @@ public class ProcessorService {
 			return response;
 		} catch (Exception e) {
 			log.error("Error sending data to authority:", e);
-			return e.getMessage();
+			throw e;
 		}
 	}
 }

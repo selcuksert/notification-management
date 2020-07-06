@@ -13,30 +13,42 @@ spring:
   cloud:
     stream:
       function:
-        definition: processMdmData
+        definition: sinkMdmData, processConsentData
       bindings:
-        processMdmData-in-0:
+        sinkMdmData-in-0:
           destination: mdmbridge
           consumer:
             use-native-decoding: true
+        processConsentData-in-0:
+          destination: consent
+          consumer:
+            use-native-decoding: true
+        processConsentData-out-0:
+          destination: notification
+          producer:
+            use-native-encoding: true
       kafka:
         streams:
           binder:
             functions:
-              processMdmData:
-                application-id: ${spring.application.name}-processMdmData
+              sinkMdmData:
+                application-id: ${spring.application.name}-sinkMdmData
+              processConsentData:
+                application-id: ${spring.application.name}-processConsentData
             applicationId: ${spring.application.name}-stream
             brokers:
             - localhost:19093
             - localhost:19094
             configuration:
               schema.registry.url: http://localhost:8081              
-              default.key.serde: io.confluent.kafka.streams.serdes.avro.PrimitiveAvroSerde
-              default.value.serde: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde
               default.deserialization.exception.handler: org.apache.kafka.streams.errors.LogAndContinueExceptionHandler
               processing.guarantee: exactly_once
             autoCreateTopics: false
             autoAddPartitions: false
           bindings:
-            processMdmData-in-0.consumer.keySerde: io.confluent.kafka.streams.serdes.avro.PrimitiveAvroSerde
-            processMdmData-in-0.consumer.valueSerde: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde
+            sinkMdmData-in-0.consumer.keySerde: io.confluent.kafka.streams.serdes.avro.PrimitiveAvroSerde
+            sinkMdmData-in-0.consumer.valueSerde: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde
+            processConsentData-in-0.consumer.keySerde: org.apache.kafka.common.serialization.Serdes$StringSerde
+            processConsentData-in-0.consumer.valueSerde: org.apache.kafka.common.serialization.Serdes$StringSerde
+            processConsentData-out-0.producer.keySerde: org.apache.kafka.common.serialization.Serdes$StringSerde
+            processConsentData-out-0.producer.valueSerde: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde

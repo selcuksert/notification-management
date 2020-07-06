@@ -218,7 +218,7 @@ export class NotificationElement extends LitElement {
         setTimeout(() => {
           this.fetchAllConsentData();
           this.fetching = false;
-        }, 1000);
+        }, 3000);
       }
     });
   }

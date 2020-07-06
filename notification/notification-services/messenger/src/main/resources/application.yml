@@ -1,0 +1,40 @@
+debug: true
+logging:
+  #file:
+    #name: app.log
+  level:
+    root: info
+    org.apache.kafka: info
+server: 
+  port: 9001
+spring:
+  cloud:
+    stream:
+      function:
+        definition: sinkConsent
+      bindings:
+        sinkConsent-in-0:
+          destination: notification
+          consumer:
+            use-native-decoding: true
+      kafka:
+        streams:
+          binder:
+            applicationId: consent-reader
+            brokers:
+            - localhost:19093
+            - localhost:19094
+            configuration:
+              schema.registry.url: http://localhost:8081              
+              default.key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+              default.value.serde: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde
+              default.deserialization.exception.handler: org.apache.kafka.streams.errors.LogAndContinueExceptionHandler
+              processing.guarantee: exactly_once
+              consent-materialized-as: consent-table              
+            autoCreateTopics: false
+            autoAddPartitions: false
+          bindings:
+            sinkConsent-0.consumer.keySerde: org.apache.kafka.common.serialization.Serdes$StringSerde
+            sinkConsent-0.consumer.valueSerde: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde
+  application:
+    name: consent-reader
