@@ -1,10 +1,10 @@
-package com.turkishairlines.concepts.notification.services.processor;
+package com.corp.concepts.notification.services.source;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ProcessorApplicationTests {
+class SourceApplicationTests {
 
 	@Test
 	void contextLoads() {

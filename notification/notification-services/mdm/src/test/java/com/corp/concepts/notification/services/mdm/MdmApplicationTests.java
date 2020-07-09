@@ -1,4 +1,4 @@
-package com.turkishairlines.concepts.notification.services.mdm;
+package com.corp.concepts.notification.services.mdm;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

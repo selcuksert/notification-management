@@ -1,10 +1,10 @@
-package com.turkishairlines.concepts.notification.services.source;
+package com.corp.concepts.notification.services.messenger;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SourceApplicationTests {
+class MessengerApplicationTests {
 
 	@Test
 	void contextLoads() {
