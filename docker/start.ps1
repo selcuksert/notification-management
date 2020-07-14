@@ -1,1 +1,1 @@
-docker-compose -f $PSScriptRoot\..\..\..\..\docker-images\kafka\docker-compose.yml up -d zookeeper kafka-broker-1 kafka-broker-2 schemaregistry add-topic-mdmbridge add-topic-notification add-topic-consent dbhost kafkaconnect
+docker-compose -f $PSScriptRoot\docker-images\kafka\docker-compose.yml --env-file $PSScriptRoot\docker.env up -d zookeeper kafka-broker-1 kafka-broker-2 schemaregistry add-topics-notification dbservice kafkaconnect
