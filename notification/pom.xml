@@ -30,7 +30,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>13</maven.compiler.source>
 		<maven.compiler.target>13</maven.compiler.target>
-		<dependency.avro.version>1.10.0</dependency.avro.version>
+		<dependency.avro.version>1.11.3</dependency.avro.version>
 		<dependency.javafaker.version>1.0.2</dependency.javafaker.version>
 		<dependency.kafka-avro.version>5.5.0</dependency.kafka-avro.version>
 		<dependency.reactor-spring.version>1.0.1.RELEASE</dependency.reactor-spring.version>
